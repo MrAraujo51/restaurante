@@ -1,0 +1,107 @@
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="index.html">Dashboard</a>
+      </li>
+      <li class="breadcrumb-item active">Orders</li>
+    </ol>
+    <div class="row">
+      <div class="col-12">
+        <h1>Ordenes</h1>
+        <button type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target="#RegistrarOrden">Registrar Orden</button>
+      </div>
+    </div>
+    <div class="mb-0 mt-4">
+      <i class="fa fa-paper-plane-o"></i> Pendiente</div>
+    <hr class="mt-2">
+    <div class="card-columns">
+      <!-- Example Social Card-->
+      <div class="card mb-3">
+        <h4 class="card-header">ESTAUTUS</h4>
+        <div class="card-body">
+          <h6 class="card-title mb-3">David Miller</h6>
+          <h6 class="card-subtitle mb-2 text-muted">PRECIO</h6>
+        </div>
+        <div class="card-body small bg-faded">
+          <div class="media">
+            <div class="media-body">
+              <h6 class="mt-0 mb-3">Nombre Plato 1</h6>
+              <h6 class="card-subtitle mb-2 text-muted">PRECIO</h6>
+              <hr class="my-0">
+              <h6 class="mt-0 mb-1"><a href="#">Nombre Plato 2 </a></h6>
+              <h6 class="card-subtitle mb-3 text-muted">PRECIO</h6>
+              <hr class="my-0">
+            </div>
+          </div>
+        </div>
+        <div class="card-footer small text-muted">Posted 32 mins ago</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+      </div>
+      <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <a class="btn btn-primary" href="login.html">Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="RegistrarOrden" tabindex="-1" role="dialog" aria-labelledby="registerOrder" aria-hidden="true" [hidden]="hiddenOrderModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="RegistrarOrdenLabel">Registrar Orden</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="registerOrderForm" (submit)="onRegisterOrden()">
+          <div class="form-group">
+            <label for="cname">Nombre de cliente</label>
+            <input class="form-control" formControlName="cname" name="cname" type="text" placeholder="Nombre de cliente">
+          </div>
+          <div class="form-group">
+            <label for="payMethod">Metodo de pago</label>
+            <input class="form-control" formControlName="payMethod" name="paymethod" type="text" placeholder="Metodo de pago">
+          </div>
+          <div class="form-group">
+            <label for="dishes">Platos</label>
+            <div formArrayName="dishes" *ngFor="let item of registerOrderForm.get('dishes').controls; let i = index;">
+              <div class="form-row">
+                <div class="col-md-6" [formGroupName]="i">
+                  <input class="form-control" formControlName="name" placeholder="Item name">
+                </div>
+                <div class="col-md-6" [formGroupName]="i">
+                  <input type="number" class="form-control" formControlName="price" placeholder="Item price">
+                </div>
+              </div>
+              <hr class="my-1">
+            </div>
+            <button type="button" class="mr-3 " (click)="addItem()">
+              <i class="fa fa-fw fa-thumbs-up"></i>Agregar Plato</button>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary col-md-6" type="cancel" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary col-md-6" [disabled]="!registerOrderForm.valid">Registrar</button>
+      </div>
+    </div>
+  </div>
+</div>

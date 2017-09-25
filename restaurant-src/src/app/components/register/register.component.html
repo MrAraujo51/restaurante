@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="card card-register mx-auto mt-5">
+    <div class="card-header">Register an Account</div>
+    <div class="card-body">
+      <div class="row show-hide-message" *ngIf="message">
+        <div class="col-md-12" [ngClass]="messageClass">
+          {{ message }}
+        </div>
+      </div>
+      <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
+        <div class="form-group" [ngClass]="{'has-error': (registerForm.get('email').errors && registerForm.get('email').dirty) || (!emailValid && registerForm.get('email').dirty), 'has-success': !registerForm.get('email').errors && emailValid}">
+          <label for="email">Email address</label>
+          <input class="form-control" formControlName="email" name="email" type="email" aria-describedby="emailHelp" placeholder="Enter email"
+            (blur)="checkEmail()" required>
+          <ul class="help-block">
+            <li *ngIf="registerForm.get('email').hasError('required') && registerForm.get('email').touched">La direccion de correo es requerido</li>
+            <li *ngIf="registerForm.get('email').hasError('minlength') && registerForm.get('email').dirty || registerForm.get('email').hasError('maxlength')">Caracteres Minimos: 5, Caracteres Maximos: 30</li>
+            <li *ngIf="registerForm.get('email').hasError('validateEmail') && registerForm.get('email').dirty">Ingrese una direccion de correo valida</li>
+            <li *ngIf="registerForm.get('email').hasError('validateContainTekton') && registerForm.get('email').dirty">Ingrese una direccion de correo de Tekton Labs </li>
+            <li *ngIf="emailMessage">{{emailMessage}}</li>
+          </ul>
+        </div>
+        <div class="form-group">
+          <div class="form-row">
+            <div class="col-md-6" [ngClass]="{'has-error': (registerForm.get('password').errors && registerForm.get('password').dirty), 'has-success': !registerForm.get('password').errors}">
+              <label for="password">Password</label>
+              <input class="form-control" formControlName="password" name="password" type="password" placeholder="Password">
+              <ul class="help-block">
+                <li *ngIf="registerForm.get('password').hasError('required') && registerForm.get('password').touched">Debe ingresar una contraseña</li>
+                <li *ngIf="registerForm.get('password').hasError('upperCase') && registerForm.get('password').dirty">Por lo menos una letra mayuscula</li>
+                <li *ngIf="registerForm.get('password').hasError('lowerCase') && registerForm.get('password').dirty">Por lo menos una letra miniscula</li>
+                <li *ngIf="registerForm.get('password').hasError('number') && registerForm.get('password').dirty">Por lo menos un numero</li>
+                <li *ngIf="registerForm.get('password').hasError('specialCharacter') && registerForm.get('password').dirty">Por lo menos un caracter especial</li>
+                <li *ngIf="registerForm.get('password').hasError('minlength') && registerForm.get('password').dirty">Por lo menos 8 caracteres</li>
+              </ul>
+            </div>
+            <div class="col-md-6" [ngClass]="{'has-error': (registerForm.get('confirmPass').errors && registerForm.get('confirmPass').dirty), 'has-success': !registerForm.get('confirmPass').errors}">
+              <label for="confirmPass">Confirm password</label>
+              <input class="form-control" formControlName="confirmPass" name="confirmPass" type="password" placeholder="Confirm password">
+              <ul class="help-block">
+                <li *ngIf="registerForm.get('confirmPass').hasError('required') && registerForm.get('confirmPass').touched">La confirmación de contraseña no puede estar vacía</li>
+                <li *ngIf="registerForm.hasError('matchingPasswords') && registerForm.get('confirmPass').dirty">La contraseña no coincide</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-6">
+            <label for="sel1">Selecciona el Cargo:</label>
+            <select class="form-control" formControlName="rol" name="rol">
+              <option>Cajero</option>
+              <option>Chef</option>
+            </select>
+          </div>
+        </div>
+        <!-- <a class="btn btn-primary btn-block" href="#" (click)="onRegisterSubmit()">Register</a> -->
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="!registerForm.valid || !emailValid"> Registrarse</button>
+      </form>
+      <div class="text-center">
+        <a class="d-block small mt-3" [routerLink]="['/login']">Login Page</a>
+      </div>
+    </div>
+  </div>
+</div>
