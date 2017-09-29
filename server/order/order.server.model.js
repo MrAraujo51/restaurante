@@ -2,7 +2,7 @@
  * @author: Manuel Araujo <alejandromanuel5187@gmail.com>
  * Created on 2017-09-25 01:26:54 
  */
-const mogoose = require('mongoose');
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema; // Import Schema from Mongoose
 
 const orderSchema = new Schema({
@@ -30,7 +30,8 @@ const orderSchema = new Schema({
     },
     orderDetail: [{
         plate: String,
-        price: Number
+        price: Number,
+        _id: false
     }]
   
   });

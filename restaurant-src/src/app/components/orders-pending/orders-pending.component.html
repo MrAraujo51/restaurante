@@ -2,7 +2,10 @@
   <div class="container-fluid">
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
-      <li class="breadcrumb-item active">Orders</li>
+      <li class="breadcrumb-item">
+        <a href="#">Ordenes</a>
+      </li>
+      <li class="breadcrumb-item active">Comanda</li>
     </ol>
     <div class="row">
       <div class="col-12">
@@ -13,13 +16,16 @@
     <div class="mb-0 mt-4">
       <i class="fa fa-paper-plane-o"></i> Pendiente</div>
     <hr class="mt-2">
-    <div class="card-columns">
+    <div class="card-columns" (blur)="getAllPendingOrders()">
       <!-- Example Social Card-->
       <div class="card mb-3" *ngFor="let order of pendingOrders">
         <h4 class="card-header">{{ order.status | uppercase}}</h4>
         <div class="card-body">
           <h6 class="card-title mb-3">{{ order.cname }}</h6>
-          <h6 class="card-subtitle mb-2 text-muted">{{ order.totalAmount }}</h6>
+          <h6 class="card-subtitle mb-2 text-muted">Metodo de pago: {{ order.payMethod }}</h6>
+          <h6 class="card-subtitle mb-2 text-muted">Total: {{ order.totalAmount}}</h6>
+          <button type="button" class="btn btn-success" (click)="isInProcess(order._id)">
+            Colocar en progreso</button>
         </div>
         <div class="card-body small bg-faded">
           <div class="media">
@@ -38,14 +44,15 @@
   </div>
 </div>
 
-<div class="modal fade" id="RegistrarOrden" tabindex="-1" role="dialog" aria-labelledby="registerOrder" aria-hidden="true" [hidden]="hiddenOrderModal">
+<div class="modal fade" id="RegistrarOrden" tabindex="-1" role="dialog" aria-labelledby="registerOrder" aria-hidden="true"
+  [hidden]="hiddenOrderModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="RegistrarOrdenLabel">Registrar Orden</h5>
         <button class="close" type="button" data-dismiss="modal" aria-label="Close" #closeBtn>
-              <span aria-hidden="true">×</span>
-            </button>
+                <span aria-hidden="true">×</span>
+              </button>
       </div>
       <div class="modal-body">
         <form [formGroup]="registerOrderForm" (submit)="onRegisterOrden()">
@@ -56,9 +63,9 @@
           <div class="form-group">
             <label for="payMethod">Metodo de pago</label>
             <select class="form-control" formControlName="payMethod" name="payMethod">
-                <option>Efectivo</option>
-                <option>Tarjeta</option>
-              </select>
+                  <option>Efectivo</option>
+                  <option>Tarjeta</option>
+                </select>
           </div>
           <div class="form-group">
             <label for="dishes">Platos</label>
@@ -68,13 +75,15 @@
                   <input class="form-control" formControlName="plate" placeholder="Item name">
                 </div>
                 <div class="col-md-6" [formGroupName]="i">
-                  <input type="number" class="form-control" formControlName="price" placeholder="Item price">
+                  <input type="number" class="form-control" formControlName="price" placeholder="Item price" (keyup)="onTotalAmount()">
                 </div>
               </div>
               <hr class="my-2">
             </div>
             <button type="button" class="btn btn-success" (click)="addItem()">
-              <i class="fa fa-fw fa-plus"></i>Agregar Plato</button>
+              <i class="fa fa-fw fa-plus"></i>Agregar Plato
+            </button>
+            <h6 class="card-title mb-3 float-right">TOTAL: {{ totalAmount }}</h6>
           </div>
 
         </form>

@@ -5,7 +5,7 @@ const cors          = require('cors');
 const passport      = require('passport');
 
 
-// require('./server/config/passport')(passport);
+require('./server/config/passport')(passport);
 
 const app = express();
 
@@ -27,6 +27,7 @@ app.use(passport.session());
 
 /** load routes*/
 require('./server/user/user.server.routes')(app);
+require('./server/order/order.server.routes')(app);
 // require('./server/product/product.server.routes')(app);
 // require('./server/instance/instance.server.routes')(app);
 // require('./server/instanceUser/instanceUser.server.routes')(app);

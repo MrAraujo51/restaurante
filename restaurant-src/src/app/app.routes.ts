@@ -11,6 +11,9 @@ import { NotAuthGuard } from './guards/not-auth.guard';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { OrdersPendingComponent } from './components/orders-pending/orders-pending.component';
+import { OrdersInProcessComponent } from './components/orders-in-process/orders-in-process.component';
+import { OrdersDoneComponent } from './components/orders-done/orders-done.component';
 const routes: Routes = [
     {
         path: 'login',
@@ -29,11 +32,24 @@ const routes: Routes = [
         }
     },
     {
-        path: 'dashboard',
-        component: DashboardComponent,
-        canActivate: [AuthGuard],
+        path: 'orders/pending',
+        component: OrdersPendingComponent,
         data: {
-            title: 'Restaurant | Dashboard'
+            title: 'Restaurant | Ordenes Pendientes'
+        }
+    },
+    {
+        path: 'orders/in-process',
+        component: OrdersInProcessComponent,
+        data: {
+            title: 'Restaurant | Ordenes en Proceso'
+        }
+    },
+    {
+        path: 'orders/done',
+        component: OrdersDoneComponent,
+        data: {
+            title: 'Restaurant | Ordenes Pendientes'
         }
     },
     {   path: '**', redirectTo: 'login'}

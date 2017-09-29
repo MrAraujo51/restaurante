@@ -1,14 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { OrderService } from '../../service/order.service';
-
-
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  selector: 'app-orders-pending',
+  templateUrl: './orders-pending.component.html',
+  styleUrls: ['./orders-pending.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class OrdersPendingComponent implements OnInit {
 
   registerOrderForm: FormGroup;
   items: any = [];
@@ -16,6 +14,7 @@ export class DashboardComponent implements OnInit {
   message;
   hiddenOrderModal;
   pendingOrders;
+  totalAmount;
   @ViewChild('closeBtn') closeBtn: ElementRef;
 
   constructor(
@@ -35,25 +34,28 @@ export class DashboardComponent implements OnInit {
       payMethod: [null, Validators.required],
       dishes: this.formBuilder.array([ this.createItem() ])
     });
+    this.items = this.registerOrderForm.get('dishes') as FormArray;
   }
 
   createItem() {
     return this.formBuilder.group({
       plate: ['', Validators.required],
-      price: ['', Validators.required]
+      price: [0, Validators.required]
     });
   }
 
   addItem(): void {
     this.items = this.registerOrderForm.get('dishes') as FormArray;
     this.items.push(this.createItem());
+    this.onTotalAmount();
   }
 
   onRegisterOrden() {
     const orden = {
       cname: this.registerOrderForm.get('cname').value,
       payMethod: this.registerOrderForm.get('payMethod').value,
-      orderDetail: this.registerOrderForm.get('dishes').value
+      orderDetail: this.registerOrderForm.get('dishes').value,
+      totalAmount: this.totalAmount
     };
 
     this.orderService.registerOrder(orden).subscribe( data => {
@@ -62,6 +64,7 @@ export class DashboardComponent implements OnInit {
         this.messageClass = 'alert alert-success'; // Set bootstrap success class
         this.message = data.message; // Set success message
         this.createForm();
+        this.getAllPendingOrders();
       } else {
         this.messageClass = 'alert alert-danger'; // Set bootstrap error class
         this.message = data.message; // Set error message
@@ -74,6 +77,17 @@ export class DashboardComponent implements OnInit {
       if (data.success) {
         this.pendingOrders = data.orders;
       } else {
+      }
+    });
+  }
+
+  isInProcess(order_id) {
+    const order = {
+      order_id: order_id
+    };
+    this.orderService.isInProcess(order).subscribe(data => {
+      if (data.success) {
+        this.getAllPendingOrders();
       }
     });
   }
@@ -102,4 +116,15 @@ export class DashboardComponent implements OnInit {
     }
     return`Posted ${Math.floor(seconds)} seconds ago`;
   }
+
+  onTotalAmount() {
+    let aux = 0;
+    this.items.value.forEach(item => {
+      aux += item.price;
+    });
+    this.totalAmount = aux;
+  }
+
+
+
 }

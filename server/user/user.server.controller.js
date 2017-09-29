@@ -132,7 +132,8 @@ exports.authenticate = (req, res) => {
             success: true,
             token: `JWT ${token}`,
             user: {
-                email: user.email
+                email: user.email,
+                rol: user.rol
             }
         });
     });

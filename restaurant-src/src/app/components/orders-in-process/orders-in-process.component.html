@@ -1,0 +1,44 @@
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <!-- Breadcrumbs-->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="#">Ordenes</a>
+      </li>
+      <li class="breadcrumb-item active">En Proceso</li>
+    </ol>
+    <div class="row">
+      <div class="col-12">
+        <h1>Ordenes</h1>
+      </div>
+    </div>
+    <div class="mb-0 mt-4">
+      <i class="fa fa-paper-plane-o"></i> En Proceso</div>
+    <hr class="mt-2">
+    <div class="card-columns" (blur)="getAllInProgressOrders()">
+      <!-- Example Social Card-->
+      <div class="card mb-3" *ngFor="let order of inPogressOrders">
+        <h4 class="card-header">{{ order.status | uppercase}}</h4>
+        <div class="card-body">
+          <h6 class="card-title mb-3">{{ order.cname }}</h6>
+          <h6 class="card-subtitle mb-2 text-muted">{{ order.totalAmount }}</h6>
+          <h6 class="card-subtitle mb-2 text-muted">{{ order.payMethod }}</h6>
+          <button type="button" class="btn btn-success" (click)="isDone(order._id)">
+            Colocar lista</button>
+        </div>
+        <div class="card-body small bg-faded">
+          <div class="media">
+            <div class="media-body">
+              <div *ngFor="let plato of order.orderDetail">
+                <h6 class="mt-0 mb-3">{{ plato.plate }}</h6>
+                <h6 class="card-subtitle mb-2 text-muted">PRECIO: {{ plato.price }}</h6>
+                <hr class="my-0">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer small text-muted">{{timeSince(order.creationTime)}}</div>
+      </div>
+    </div>
+  </div>
+</div>

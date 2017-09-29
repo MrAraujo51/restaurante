@@ -31,9 +31,33 @@ export class OrderService {
       .map(res => res.json());
   }
 
-  getAllOrders() {
+  getAllPendingOrders() {
     this.createAuthenticationHeaders();
-    return this.http.get(this.domain + 'api/orders', this.options)
+    return this.http.get(this.domain + 'api/orders/pending', this.options)
       .map(res => res.json());
   }
+  getAllInProcessOrders() {
+    this.createAuthenticationHeaders();
+    return this.http.get(this.domain + 'api/orders/in-process', this.options)
+    .map(res => res.json());
+  }
+
+  getAllDoneOrders() {
+    this.createAuthenticationHeaders();
+    return this.http.get(this.domain + 'api/orders/done', this.options)
+      .map(res => res.json());
+  }
+
+  isInProcess(order_id) {
+    this.createAuthenticationHeaders();
+    return this.http.post(this.domain + 'api/orders/is-in-process', order_id, this.options)
+      .map(res => res.json());
+  }
+
+  isDone(order_id) {
+    this.createAuthenticationHeaders();
+    return this.http.post(this.domain + 'api/orders/is-done', order_id, this.options)
+      .map(res => res.json());
+  }
+
 }

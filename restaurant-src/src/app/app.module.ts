@@ -20,6 +20,9 @@ import { LoginComponent } from './components/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RegisterComponent } from './components/register/register.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { OrdersPendingComponent } from './components/orders-pending/orders-pending.component';
+import { OrdersDoneComponent } from './components/orders-done/orders-done.component';
+import { OrdersInProcessComponent } from './components/orders-in-process/orders-in-process.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,10 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     LoginComponent,
     NavbarComponent,
     RegisterComponent,
-    DashboardComponent
+    DashboardComponent,
+    OrdersPendingComponent,
+    OrdersDoneComponent,
+    OrdersInProcessComponent,
   ],
   imports: [
     BrowserModule,

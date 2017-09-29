@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
       setTimeout(() => {
         if (data.success) {
           this.authService.storeUserData(data.token, data.user);
-          this.router.navigate(['dashboard']);
+          this.router.navigate(['orders/pending']);
           this.messageClass = 'alert alert-success'; // Set bootstrap success class
           this.message = data.message; // Set success message
         } else {
